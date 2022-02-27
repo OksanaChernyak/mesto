@@ -13,5 +13,5 @@
 Планируется дальнейшая работа с кнопками и другим функционалом.
 
 [Ссылка на GitHub Pages](https://oksanachernyak.github.io/mesto/)
-
+rhythtg
 
