@@ -1,0 +1,7 @@
+.places__item {
+  min-width: 282px;
+  max-height: 361px;
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  position: relative;
+}
