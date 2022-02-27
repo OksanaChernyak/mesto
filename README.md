@@ -4,9 +4,9 @@
 
 ### Технологии
 
-* HTML U+1F4C3
-* CSS U+1F58C
-* JavaScript U+1F9E0
+* HTML
+* CSS
+* JavaScript
 
 ### Планы по доработке
 
