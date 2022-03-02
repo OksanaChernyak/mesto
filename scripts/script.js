@@ -1,25 +1,33 @@
-let popup = document.querySelector('.popup');
-let openPopup = document.querySelector('.profile__edit-button');
-let closePopup = popup.querySelector('.popup__close-button');
-let formSubmit = document.querySelector('.popup__container');
-let userName = document.querySelector('.profile__title');
-let userDescription = document.querySelector('.profile__subtitle');
-let userNameInput = popup.querySelector('.popup__field_type_name');
-let userDescriptionInput = popup.querySelector('.popup__field_type_description');
+const popup = document.querySelector(".popup");
+const profileOpenButton = document.querySelector(".profile__edit-button");
+const profileCloseButton = popup.querySelector(".popup__close-button");
+const formSubmit = document.querySelector(".popup__container");
+let userName = document.querySelector(".profile__title");
+let userDescription = document.querySelector(".profile__subtitle");
+let userNameInput = popup.querySelector(".popup__field_type_name");
+let userDescriptionInput = popup.querySelector(
+  ".popup__field_type_description"
+);
 
-function formSubmitHandler (evt) {
+function openProfilePopup() {
+  userNameInput.value = userName.textContent;
+  userDescriptionInput.value = userDescription.textContent;
+  popup.classList.add("popup_opened");
+}
+
+function closeProfilePopup() {
+  popup.classList.remove("popup_opened");
+}
+
+function handleProfileFormSubmit(evt) {
   evt.preventDefault();
   userName.textContent = userNameInput.value;
   userDescription.textContent = userDescriptionInput.value;
-  popup.classList.toggle('popup__opened');
-};
+  closeProfilePopup();
+}
 
-openPopup.addEventListener('click', function() {
-  popup.classList.add('popup__opened')
-});
+profileOpenButton.addEventListener("click", openProfilePopup);
 
-closePopup.addEventListener('click', function() {
-  popup.classList.toggle('popup__opened')
-});
+profileCloseButton.addEventListener("click", closeProfilePopup);
 
-formSubmit.addEventListener('submit', formSubmitHandler);
+formSubmit.addEventListener("submit", handleProfileFormSubmit);
