@@ -5,4 +5,7 @@
   background: none;
   padding: 0;
   margin: 90px auto 0;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
 }
