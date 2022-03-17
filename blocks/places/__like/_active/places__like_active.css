@@ -1,4 +1,3 @@
 .places__like_active {
-  /*background-image: url('../images/places__icon-active.svg');
-  сказано подготовить, но пока не использовать*/
+  background-image: url('../../../../images/places__icon-active.svg');
 }
