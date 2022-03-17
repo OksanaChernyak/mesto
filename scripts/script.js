@@ -1,10 +1,10 @@
-const popupEditForm = document.querySelector(".popup__edit-form");
+const popupEditForm = document.querySelector(".popup_type_edit-form");
 const profileEditButton = document.querySelector(".profile__edit-button");
 const profileCloseButton = popupEditForm.querySelector(".popup__close-button");
 const editFormSubmit = document.querySelector(".popup__container_type_edit");
 const userName = document.querySelector(".profile__title");
 const userDescription = document.querySelector(".profile__subtitle");
-const popupAddForm = document.querySelector(".popup__add-form");
+const popupAddForm = document.querySelector(".popup_type_add-form");
 let userNameInput = popupEditForm.querySelector(".popup__field_type_name");
 let userDescriptionInput = popupEditForm.querySelector(
   ".popup__field_type_description"
@@ -15,7 +15,7 @@ const cardAddButton = document.querySelector(".profile__add-button");
 const cardCloseButton = popupAddForm.querySelector(".popup__close-button");
 const addFormSubmit = document.querySelector(".popup__container_type_add");
 const cardsList = document.querySelector(".places");
-const popupPicContainer = document.querySelector(".popup__pic");
+const popupPicContainer = document.querySelector(".popup_type_pic");
 const picCloseButton = popupPicContainer.querySelector(
   ".popup__close-button_type_pic"
 );
