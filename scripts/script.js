@@ -25,6 +25,10 @@ const picCloseButton = containerPopupPic.querySelector(
 );
 const popupPic = containerPopupPic.querySelector(".popup__pic");
 const popupPicTitle = containerPopupPic.querySelector(".popup__pic-title");
+const ESC_CODE = 27;
+const saveAddFormButton = containerAddFormSubmit.querySelector(
+  ".popup__save-button_type_add-form"
+);
 
 //перебор массива
 initialCards.forEach(function (el) {
@@ -44,9 +48,11 @@ function makeCard(name, link) {
   const newCard = document
     .querySelector(".places-template")
     .content.cloneNode(true);
-  newCard.querySelector(".places__title").textContent = name;
-  newCard.querySelector(".places__image").src = link;
-  newCard.querySelector(".places__image").alt = name;
+  const newCardImage = newCard.querySelector(".places__image");
+  const newCardTitle = newCard.querySelector(".places__title");
+  newCardTitle.textContent = name;
+  newCardImage.src = link;
+  newCardImage.alt = name;
   setCardActionsListeners(newCard, name, link);
   return newCard;
 }
@@ -64,6 +70,10 @@ function addNewCard(evt) {
   userPlaceInput.value = "";
   userLinkInput.value = "";
   closePopup(popupAddForm);
+  /* в данном случае я дублирую код из функции toggleSaveButtonState, т.к. не могу передать ей аргументы, которые требуются функции,
+  т.к. они не существуют в глобальной области видимости. Для этого придется вынести объект в отдельную константу, а также глобально создать массив inputList*/
+  saveAddFormButton.classList.add("popup__save-button_disabled");
+  saveAddFormButton.disabled = true;
 }
 
 //удаление карточки
@@ -88,7 +98,7 @@ function setCardActionsListeners(newCard, name, link) {
     openPopup(containerPopupPic);
     popupPic.src = link;
     popupPicTitle.textContent = name;
-    popupPicTitle.alt = name;
+    popupPic.alt = name;
   });
 }
 
@@ -105,16 +115,9 @@ function closePopup(elem) {
 
 //закрытие по кнопке Esc
 function closeOnEsc(evt) {
-  if (evt.which === 27) {
+  if (evt.which === ESC_CODE) {
     const activePopup = document.querySelector(".popup_opened");
     closePopup(activePopup);
-  }
-}
-
-//задание из брифа для добавления карточки по Enter
-function closeOnEnter(evt) {
-  if (evt.which === 13) {
-    makeCard();
   }
 }
 

@@ -16,6 +16,14 @@ function setInputListeners(form, config) {
 
   toggleSaveButtonState(inputList, saveButton, config);
 
+  /*если сделать так, тогда на каждую форму навесится слушатель, а нам надо на одну.
+  Можно сделать через if (classList.contains), указав класс определенной кнопки сохранить на нужной форме,
+  но тогда нарушится абстрактность функции, ведь это уже какой-то частный случай:
+  form.addEventListener("submit", function () {
+    toggleSaveButtonState(inputList, saveButton, config);
+  });*/
+
+
   inputList.forEach(function (input) {
     input.addEventListener("input", function () {
       isValid(form, input, config);
@@ -61,11 +69,9 @@ function toggleSaveButtonState(inputList, saveButton, config) {
   if (hasInvalidField(inputList, config)) {
     saveButton.classList.add(config.popupButtonDisabled);
     saveButton.disabled = true;
-    document.removeEventListener("keydown", closeOnEnter);
   } else {
     saveButton.classList.remove(config.popupButtonDisabled);
     saveButton.disabled = false;
-    document.addEventListener("keydown", closeOnEnter);
   }
 }
 
@@ -78,3 +84,4 @@ enableValidation({
   errorActive: "error_active",
   popupButtonDisabled: "popup__save-button_disabled",
 });
+
