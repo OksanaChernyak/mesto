@@ -19,44 +19,19 @@ const containerAddFormSubmit = document.querySelector(
   ".popup__container_type_add"
 );
 const cardsList = document.querySelector(".places");
-const containerPopupPic = document.querySelector(".popup_type_pic");
+const containerPopupPic = document.querySelector(".popup_type_image");
 const picCloseButton = containerPopupPic.querySelector(
   ".popup__close-button_type_pic"
 );
-const popupPic = containerPopupPic.querySelector(".popup__image");
+const popupPic = containerPopupPic.querySelector(".popup__pic");
 const popupPicTitle = containerPopupPic.querySelector(".popup__pic-title");
 
-const initialCards = [
-  {
-    name: "Чусовая",
-    link: "https://images.unsplash.com/photo-1623241034180-dd74f4bff7b4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3216&q=80",
-  },
-  {
-    name: "Богданович",
-    link: "https://images.unsplash.com/photo-1592577495540-60f4b9270c6d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80",
-  },
-  {
-    name: "Иремель",
-    link: "https://images.unsplash.com/photo-1593191983539-51b5d75529ee?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1288&q=80",
-  },
-  {
-    name: "Конжаковский камень",
-    link: "https://images.unsplash.com/photo-1626876990243-533c63943aa0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2669&q=80",
-  },
-  {
-    name: "Кыштым",
-    link: "https://images.unsplash.com/photo-1647345691519-4e0bcccf95cf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80",
-  },
-  {
-    name: "Таганай",
-    link: "https://images.unsplash.com/photo-1625589934405-a180c2e53aa5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80",
-  },
-];
-
+//перебор массива
 initialCards.forEach(function (el) {
   renderCard(el.name, el.link);
 });
 
+//сохранение формы профиля при нажатии сохранить
 function saveProfileForm(evt) {
   evt.preventDefault();
   userName.textContent = userNameInput.value;
@@ -64,6 +39,7 @@ function saveProfileForm(evt) {
   closePopup(popupEditForm);
 }
 
+//формирование карточки
 function makeCard(name, link) {
   const newCard = document
     .querySelector(".places-template")
@@ -75,24 +51,28 @@ function makeCard(name, link) {
   return newCard;
 }
 
+//создание и вставка карточки в разметку
 function renderCard(name, link) {
   newCard = makeCard(name, link);
   cardsList.prepend(newCard);
 }
 
+//сохранение новой карточки при нажатии создать
 function addNewCard(evt) {
   evt.preventDefault();
   newCard = renderCard(userPlaceInput.value, userLinkInput.value);
-  userPlaceInput.value = null;
-  userLinkInput.value = null;
+  userPlaceInput.value = "";
+  userLinkInput.value = "";
   closePopup(popupAddForm);
 }
 
+//удаление карточки
 function removeCard(evt) {
   const newCard = evt.currentTarget.closest(".places__item");
   newCard.remove();
 }
 
+//пакет слушателей для каждой карточки
 function setCardActionsListeners(newCard, name, link) {
   newCard
     .querySelector(".places__delete")
@@ -112,13 +92,48 @@ function setCardActionsListeners(newCard, name, link) {
   });
 }
 
+//открытие и закрытие
 function openPopup(elem) {
   elem.classList.add("popup_opened");
+  document.addEventListener("keydown", closeOnEsc);
 }
 
 function closePopup(elem) {
+  document.removeEventListener("keydown", closeOnEsc);
   elem.classList.remove("popup_opened");
 }
+
+//закрытие по кнопке Esc
+function closeOnEsc(evt) {
+  if (evt.which === 27) {
+    const activePopup = document.querySelector(".popup_opened");
+    closePopup(activePopup);
+  }
+}
+
+//задание из брифа для добавления карточки по Enter
+function closeOnEnter(evt) {
+  if (evt.which === 13) {
+    makeCard();
+  }
+}
+
+//закрытие по клику на оверлей в любом месте, кропе попапа
+function closeOnOverlay() {
+  const overlayList = Array.from(document.querySelectorAll(".popup"));
+  overlayList.forEach(function (overlay) {
+    overlay.addEventListener("click", (evt) => {
+      if (
+        evt.target.classList.contains("popup") ||
+        evt.target.classList.contains("popup__close-button")
+      ) {
+        closePopup(overlay);
+      }
+    });
+  });
+}
+
+closeOnOverlay();
 
 profileEditButton.addEventListener("click", function () {
   openPopup(popupEditForm);
@@ -131,6 +146,7 @@ profileCloseButton.addEventListener("click", function () {
 
 containerEditFormSubmit.addEventListener("submit", saveProfileForm);
 containerAddFormSubmit.addEventListener("submit", addNewCard);
+
 cardAddButton.addEventListener("click", function () {
   openPopup(popupAddForm);
 });

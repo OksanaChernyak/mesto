@@ -2,6 +2,8 @@
   border: 0;
   width: 100%;
   border-bottom: 1px solid rgba(0,0,0,.2);
-  height: 57px;
   color: #000000;
+  font-size: 14px;
+  padding-bottom: 13px;
+  box-sizing: border-box;
 }

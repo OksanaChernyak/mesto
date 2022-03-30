@@ -12,3 +12,8 @@
     width: 100%;
   }
 }
+
+.places__image:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}
