@@ -26,9 +26,7 @@ const picCloseButton = containerPopupPic.querySelector(
 const popupPic = containerPopupPic.querySelector(".popup__pic");
 const popupPicTitle = containerPopupPic.querySelector(".popup__pic-title");
 const ESC_CODE = 27;
-const saveAddFormButton = containerAddFormSubmit.querySelector(
-  ".popup__save-button_type_add-form"
-);
+newCardSaveButton = containerAddFormSubmit.querySelector(".popup__save-button");
 
 //перебор массива
 initialCards.forEach(function (el) {
@@ -69,11 +67,10 @@ function addNewCard(evt) {
   newCard = renderCard(userPlaceInput.value, userLinkInput.value);
   userPlaceInput.value = "";
   userLinkInput.value = "";
+  newCardSaveButton.classList.add("popup__save-button_disabled");
+  newCardSaveButton.disabled = true;
   closePopup(popupAddForm);
-  /* в данном случае я дублирую код из функции toggleSaveButtonState, т.к. не могу передать ей аргументы, которые требуются функции,
-  т.к. они не существуют в глобальной области видимости. Для этого придется вынести объект в отдельную константу, а также глобально создать массив inputList*/
-  saveAddFormButton.classList.add("popup__save-button_disabled");
-  saveAddFormButton.disabled = true;
+  
 }
 
 //удаление карточки
