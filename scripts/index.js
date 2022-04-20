@@ -1,3 +1,6 @@
+import Card from "./Card.js";
+import FormValidator from "./FormValidator.js";
+
 const popupEditForm = document.querySelector(".popup_type_edit-form");
 const profileEditButton = document.querySelector(".profile__edit-button");
 const profileCloseButton = popupEditForm.querySelector(".popup__close-button");
@@ -26,11 +29,19 @@ const picCloseButton = containerPopupPic.querySelector(
 const popupPic = containerPopupPic.querySelector(".popup__pic");
 const popupPicTitle = containerPopupPic.querySelector(".popup__pic-title");
 const ESC_CODE = 27;
-newCardSaveButton = containerAddFormSubmit.querySelector(".popup__save-button");
+const newCardSaveButton = containerAddFormSubmit.querySelector(
+  ".popup__save-button"
+);
 
-//перебор массива
-initialCards.forEach(function (el) {
-  renderCard(el.name, el.link);
+//обходим массив, создаем экземпляр класса кард
+initialCards.forEach((el) => {
+  const card = new Card(
+    el,
+    ".places-template_type_default",
+    handlePicPopupOpen
+  );
+  const newCard = card.renderCard();
+  cardsList.prepend(newCard);
 });
 
 //сохранение формы профиля при нажатии сохранить
@@ -41,62 +52,36 @@ function saveProfileForm(evt) {
   closePopup(popupEditForm);
 }
 
-//формирование карточки
-function makeCard(name, link) {
-  const newCard = document
-    .querySelector(".places-template")
-    .content.cloneNode(true);
-  const newCardImage = newCard.querySelector(".places__image");
-  const newCardTitle = newCard.querySelector(".places__title");
-  newCardTitle.textContent = name;
-  newCardImage.src = link;
-  newCardImage.alt = name;
-  setCardActionsListeners(newCard, name, link);
-  return newCard;
-}
-
-//создание и вставка карточки в разметку
-function renderCard(name, link) {
-  newCard = makeCard(name, link);
-  cardsList.prepend(newCard);
-}
-
 //сохранение новой карточки при нажатии создать
 function addNewCard(evt) {
   evt.preventDefault();
-  newCard = renderCard(userPlaceInput.value, userLinkInput.value);
+  //создала объект с настройками для передачи в класс кард
+  const userDataCard = {
+    name: userPlaceInput.value,
+    link: userLinkInput.value,
+  };
+  //создаем экземпляр класса кард
+  const card = new Card(
+    userDataCard,
+    ".places-template_type_default",
+    handlePicPopupOpen
+  );
+  //использовала публичный метод класса
+  const newCard = card.renderCard();
   userPlaceInput.value = "";
   userLinkInput.value = "";
   newCardSaveButton.classList.add("popup__save-button_disabled");
   newCardSaveButton.disabled = true;
+  cardsList.prepend(newCard);
   closePopup(popupAddForm);
-  
 }
 
-//удаление карточки
-function removeCard(evt) {
-  const newCard = evt.currentTarget.closest(".places__item");
-  newCard.remove();
-}
-
-//пакет слушателей для каждой карточки
-function setCardActionsListeners(newCard, name, link) {
-  newCard
-    .querySelector(".places__delete")
-    .addEventListener("click", removeCard);
-
-  newCard
-    .querySelector(".places__like")
-    .addEventListener("click", function (evt) {
-      evt.target.classList.toggle("places__like_active");
-    });
-
-  newCard.querySelector(".places__image").addEventListener("click", () => {
-    openPopup(containerPopupPic);
-    popupPic.src = link;
-    popupPicTitle.textContent = name;
-    popupPic.alt = name;
-  });
+//открытие попапа с большой картинкой
+function handlePicPopupOpen(name, link) {
+  openPopup(containerPopupPic);
+  popupPic.src = link;
+  popupPicTitle.textContent = name;
+  popupPic.alt = name;
 }
 
 //открытие и закрытие
@@ -135,6 +120,7 @@ function closeOnOverlay() {
 
 closeOnOverlay();
 
+//слушатели для кликов на элементы профиля - кнопку редактирования и закрытие попапа
 profileEditButton.addEventListener("click", function () {
   openPopup(popupEditForm);
   userNameInput.value = userName.textContent;
@@ -144,15 +130,37 @@ profileCloseButton.addEventListener("click", function () {
   closePopup(popupEditForm);
 });
 
+//слушатели на событие сабмит для каждого из попапов
 containerEditFormSubmit.addEventListener("submit", saveProfileForm);
 containerAddFormSubmit.addEventListener("submit", addNewCard);
 
+//слушатели для кликов на элементы добавления карточки и закрытия попапа добавления карточки
 cardAddButton.addEventListener("click", function () {
   openPopup(popupAddForm);
 });
 cardCloseButton.addEventListener("click", function () {
   closePopup(popupAddForm);
 });
+
+//слушатель на кнопку закрытия попапа с картинкой
 picCloseButton.addEventListener("click", function () {
   closePopup(containerPopupPic);
 });
+
+//объект с настройками
+const config = {
+  popupForm: ".popup__container",
+  popupField: ".popup__field",
+  popupSaveButton: ".popup__save-button",
+  popupFieldError: "popup__field_type_error",
+  errorActive: "error_active",
+  popupButtonDisabled: "popup__save-button_disabled",
+};
+
+//создаем экземпляр класса для каждой формы, передавая объект настроек и форму для валидации
+const validationAdd = new FormValidator(config, containerAddFormSubmit);
+const validationEdit = new FormValidator(config, containerEditFormSubmit);
+
+//вызываем публичный метод на каждую форму
+validationAdd.enableValidation();
+validationEdit.enableValidation();
