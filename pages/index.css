@@ -26,11 +26,11 @@
 @import url(../blocks/popup/__close-button/popup__close-button.css);
 @import url(../blocks/error/error.css);
 @import url(../blocks/places/places.css);
-@import url(../blocks/places/__item/places__item.css);
-@import url(../blocks/places/__image/places__image.css);
-@import url(../blocks/places/__title/places__title.css);
-@import url(../blocks/places/__like/places__like.css);
-@import url(../blocks/places/__delete/places__delete.css);
-@import url(../blocks/places/__like/_active/places__like_active.css);
+@import url(../blocks/place/place.css);
+@import url(../blocks/place/__image/place__image.css);
+@import url(../blocks/place/__title/place__title.css);
+@import url(../blocks/place/__like/place__like.css);
+@import url(../blocks/place/__like/_active/place__like_active.css);
+@import url(../blocks/place/__delete/place__delete.css);
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__copyright/footer__copyright.css);

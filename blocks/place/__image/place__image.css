@@ -1,4 +1,4 @@
-.places__image {
+.place__image {
   width: 282px;
   height: 282px;
   object-fit: cover;
@@ -8,12 +8,12 @@
 }
 
 @media screen and (max-width: 881px) {
-  .places__image {
+  .place__image {
     width: 100%;
   }
 }
 
-.places__image:hover {
+.place__image:hover {
   opacity: 0.5;
   cursor: pointer;
 }

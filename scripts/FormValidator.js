@@ -16,13 +16,10 @@ export default class FormValidator {
 
   //публичный метод, который можно вызвать извне класса
   enableValidation() {
-    const formList = Array.from(document.querySelectorAll(this._popupForm));
-    formList.forEach(() => {
-      this._form.addEventListener("submit", (evt) => {
-        evt.preventDefault();
-      });
-      this._setInputListeners();
+    this._form.addEventListener("submit", (evt) => {
+      evt.preventDefault();
     });
+    this._setInputListeners();
   }
 
   //_приватные методы

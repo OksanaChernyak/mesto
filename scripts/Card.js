@@ -13,7 +13,7 @@ export default class Card {
   _getTemplate() {
     const newCard = document
       .querySelector(this._cardSelector)
-      .content.querySelector(".places__item")
+      .content.querySelector(".place")
       .cloneNode(true);
     return newCard;
   }
@@ -22,22 +22,22 @@ export default class Card {
   renderCard() {
     this._element = this._getTemplate();
     this._setCardActionsListeners();
-    this._element.querySelector(".places__image").src = this._link;
-    this._element.querySelector(".places__title").textContent = this._name;
-    this._element.querySelector(".places__image").alt = this._name;
+    this._element.querySelector(".place__image").src = this._link;
+    this._element.querySelector(".place__title").textContent = this._name;
+    this._element.querySelector(".place__image").alt = this._name;
     return this._element;
   }
 
   //пакет слушателей кликов для каждой карточки
   _setCardActionsListeners() {
     this._element
-      .querySelector(".places__like")
+      .querySelector(".place__like")
       .addEventListener("click", () => this._handleLikeClick());
     this._element
-      .querySelector(".places__delete")
+      .querySelector(".place__delete")
       .addEventListener("click", () => this._handleRemoveClick());
     this._element
-      .querySelector(".places__image")
+      .querySelector(".place__image")
       .addEventListener("click", () =>
         this._handlePicPopupOpen(this._name, this._link)
       );
@@ -46,12 +46,13 @@ export default class Card {
   //что происходит при клике на лайк
   _handleLikeClick = () => {
     this._element
-      .querySelector(".places__like")
-      .classList.toggle("places__like_active");
+      .querySelector(".place__like")
+      .classList.toggle("place__like_active");
   };
 
   //что происходит при клике на корзину
   _handleRemoveClick = () => {
     this._element.remove();
+    this._element = null;
   };
 }

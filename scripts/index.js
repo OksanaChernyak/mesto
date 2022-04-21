@@ -1,3 +1,4 @@
+import {initialCards} from "./initialCards.js";
 import Card from "./Card.js";
 import FormValidator from "./FormValidator.js";
 
@@ -78,10 +79,10 @@ function addNewCard(evt) {
 
 //открытие попапа с большой картинкой
 function handlePicPopupOpen(name, link) {
-  openPopup(containerPopupPic);
   popupPic.src = link;
   popupPicTitle.textContent = name;
   popupPic.alt = name;
+  openPopup(containerPopupPic);
 }
 
 //открытие и закрытие
