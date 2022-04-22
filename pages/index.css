@@ -12,6 +12,9 @@
 @import url(../blocks/profile/__edit-button/profile__edit-button.css);
 @import url(../blocks/profile/__add-button/profile__add-button.css);
 @import url(../blocks/popup/popup.css);
+@import url(../blocks/popup/_type/popup_type_add-form.css);
+@import url(../blocks/popup/_type/popup_type_edit-form.css);
+@import url(../blocks/popup/_type/popup_type_image.css);
 @import url(../blocks/popup/__container/popup__container.css);
 @import url(../blocks/popup/__overlay/popup__overlay.css);
 @import url(../blocks/popup/__fields/popup__fields.css);
