@@ -1,4 +1,4 @@
-import { ESC_CODE } from "./constants.js";
+import { ESC_CODE } from "../utils/constants.js";
 export default class Popup {
   //получаает селектор конкретного попапа, одного. А это поведение одинаковое для каждого попапа.
   constructor(popupSelector) {
