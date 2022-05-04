@@ -22,7 +22,6 @@ export default class FormValidator {
     this._setInputListeners();
   }
 
-  //_приватные методы
   //добавить обработчики события инпут всем полям
   _setInputListeners() {
     this._toggleSaveButtonState();
