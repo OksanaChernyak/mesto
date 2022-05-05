@@ -23,7 +23,7 @@ export default class Popup {
 
   //закрытие по кнопке ESC
   _closeOnEsc(evt) {
-    if (evt.which === ESC_CODE) {
+    if (evt.keyCode === ESC_CODE) {
       this.closePopup();
     }
   }

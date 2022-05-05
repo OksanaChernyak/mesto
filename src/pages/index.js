@@ -80,14 +80,8 @@ function handleEditFormSubmit(data) {
 }
 
 //что происходит при нажатии на кнопку создания новой карточки в попапе, обработчик
-function handleAddFormSubmit() {
-  cardsList.setItem(
-    createCard({
-      //передадим объект данных, которые ввел пользователь для создания карточки
-      name: userPlaceInput.value,
-      link: userLinkInput.value,
-    })
-  );
+function handleAddFormSubmit(data) {
+  cardsList.setItem(createCard(data));
   popupWithAddForm.closePopup();
 }
 
@@ -101,14 +95,12 @@ profileEditButton.addEventListener("click", () => {
   const { name, description } = userInfo.getUserInfo();
   userNameInput.value = name;
   userDescriptionInput.value = description;
+  validationEdit.resetValidation();
   popupWithEditForm.openPopup();
 });
 
 //слушатель для клика на кнопку добавления новой карточки
 cardAddButton.addEventListener("click", () => {
-  userPlaceInput.value = "";
-  userLinkInput.value = "";
-  newCardSaveButton.classList.add("popup__save-button_disabled");
-  newCardSaveButton.disabled = true;
+  validationAdd.resetValidation();
   popupWithAddForm.openPopup();
 });

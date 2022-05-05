@@ -23,9 +23,11 @@ export default class Card {
   renderCard() {
     this._element = this._getTemplate();
     this._setCardActionsListeners();
-    this._element.querySelector(".place__image").src = this._link;
-    this._element.querySelector(".place__title").textContent = this._name;
-    this._element.querySelector(".place__image").alt = this._name;
+    const image = this._element.querySelector(".place__image");
+    const title = this._element.querySelector(".place__title");
+    image.src = this._link;
+    image.alt = this._name;
+    title.textContent = this._name;
     return this._element;
   }
 

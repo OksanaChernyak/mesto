@@ -65,7 +65,7 @@ export default class FormValidator {
     });
   }
 
-  //состояние кнопки сохранить, активно или нет
+  //состояние кнопки "сохранить", активно или нет
   _toggleSaveButtonState() {
     if (this._hasInvalidField()) {
       this._saveBtn.classList.add(this._buttonDisabled);
@@ -74,5 +74,13 @@ export default class FormValidator {
       this._saveBtn.classList.remove(this._buttonDisabled);
       this._saveBtn.disabled = false;
     }
+  }
+
+  //метод для очистки ошибок и управления состоянием кнопки "сохранить"
+  resetValidation() {
+    this._toggleSaveButtonState();
+    this._inputList.forEach((input) => {
+      this._hideInputError(input);
+    });
   }
 }
