@@ -3,11 +3,18 @@ export default class Card {
   // также получает функцию, описывающее что происходит при нажатии на карточку
   // также получает селектор для дальнейшего выбора шаблона
 
-  constructor(data, handleCardClick, cardSelector) {
+  constructor(data, handleCardClick, handleLikeClick, handleTrashBinClick, cardSelector, userId) {
     this._name = data.name;
     this._link = data.link;
+    this._ownerId = data.owner._id;
+    this._cardId = data._id;    
+    this.likes = data.likes;
+    this._myId = userId;
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
+    this._handleLikeClick = handleLikeClick;
+    this._handleTrashBinClick = handleTrashBinClick;
+      
   }
 
   //получает и клонирует разметку из template для карточки
@@ -17,45 +24,70 @@ export default class Card {
       .content.querySelector(".place")
       .cloneNode(true);
     return newCard;
-  }
+  }   
+
 
   //формирует карточку
   renderCard() {
     this._element = this._getTemplate();
     this._setCardActionsListeners();
-    const image = this._element.querySelector(".place__image");
-    const title = this._element.querySelector(".place__title");
-    image.src = this._link;
-    image.alt = this._name;
-    title.textContent = this._name;
+    this._image = this._element.querySelector(".place__image");
+    this._title = this._element.querySelector(".place__title");
+    this._image.src = this._link;
+    this._image.alt = this._name;
+    this._title.textContent = this._name;
+    this._trashBin = this._element.querySelector(".place__delete");
+    this._likeCounter = this._element.querySelector(".place__like-counter");
+    //отобразим длину массива как счетчик лайков
+    this._likeCounter.textContent = this.likes.length;
+    this._likeBtn = this._element.querySelector(".place__like");
+    //логика того, как проверяется есть ли мой лайк
+    this.hasMyLike = this.likes.some((like) => like._id === this._myId);
+
+    //если айди создателя не совпадает с мои айди, то корзинку удалим
+    if(this._ownerId != this._myId) {
+      this._trashBin.remove();
+    }
+
+    //если в массиве лайков есть пользователь с моим айди, то при отрисовке мы отрисуем этот лайк черным
+    if(this.likes.some((like) => like._id === this._myId)) {
+      this._likeBtn.classList.add("place__like_active");
+    }
+
     return this._element;
+  }
+
+  //метод удаления лайка
+  deleteMyLike() {
+    this._likeBtn.classList.remove("place__like_active");
+    this._likeCounter.textContent = this.likes.length - 1;
+  }
+//метод добавления лайка
+  addMyLike() {
+    this._likeBtn.classList.add("place__like_active");
+    this._likeCounter.textContent = this.likes.length + 1;
+  }
+
+  //метод удаления карточки
+  removeCardFromServer() {
+    this._element.remove();
+    this._element = null;
   }
 
   //пакет слушателей кликов для каждой карточки
   _setCardActionsListeners() {
     this._element
       .querySelector(".place__like")
-      .addEventListener("click", () => this._handleLikeClick());
+      .addEventListener("click", () => this._handleLikeClick(this, this.hasMyLike));
     this._element
       .querySelector(".place__delete")
-      .addEventListener("click", () => this._handleRemoveClick());
+      .addEventListener("click", () => this._handleTrashBinClick(this));
     this._element
       .querySelector(".place__image")
       .addEventListener("click", () =>
         this._handleCardClick(this._name, this._link)
       );
   }
-
-  //что происходит при клике на лайк, обработчик
-  _handleLikeClick = () => {
-    this._element
-      .querySelector(".place__like")
-      .classList.toggle("place__like_active");
-  };
-
-  //что происходит при клике на корзину, обработчик
-  _handleRemoveClick = () => {
-    this._element.remove();
-    this._element = null;
-  };
+  
 }
+

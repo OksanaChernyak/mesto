@@ -18,15 +18,16 @@
 
       <main class="main">
         <section class="profile">
+          <button class="profile__avatar-edit"></button>
           <img
             class="profile__pic"
             alt="аватарка"
-            src="<%=require('./images/profile__pic.png')%>"
+            src=""
           />
           <div class="profile__info">
-            <h1 class="profile__title">Жак-Ив Кусто</h1>
+            <h1 class="profile__title"></h1>
             <button class="profile__edit-button"></button>
-            <p class="profile__subtitle">Исследователь океана</p>
+            <p class="profile__subtitle"></p>
           </div>
           <button class="profile__add-button"></button>
         </section>
@@ -63,7 +64,7 @@
                 class="popup__field popup__field_type_description"
                 id="description-input"
                 type="text"
-                name="description"
+                name="about"
                 placeholder="Укажите профессию"
                 minlength="2"
                 maxlength="200"
@@ -126,6 +127,45 @@
             ></button>
           </div>
         </div>
+
+        <div class="popup popup_type_delete">
+          <form class="popup__delete-container">
+            <button
+              class="popup__close-button"
+              type="button"
+              aria-label="Закрыть попап"
+            ></button>
+            <h2 class="popup__title">Вы уверены?</h2>
+            <button class="popup__save-button" type="submit">Да</button>
+          </form>
+        </div>
+
+        <div class="popup popup_type_avatar-form">
+          <form
+            class="popup__container popup__container_type_avatar"
+            name="avatar-form"
+            novalidate
+          >
+            <button
+              class="popup__close-button"
+              type="button"
+              aria-label="Закрыть попап"
+            ></button>
+            <h2 class="popup__title">Обновить аватар</h2>
+            <fieldset class="popup__fields">
+              <input
+                class="popup__field popup__field_type_avatar"
+                id="avatar-input"
+                type="url"
+                name="avatar"
+                placeholder="Укажите ссылку на аватар"
+                required
+              />
+              <span class="error avatar-input-error"></span>
+              <button class="popup__save-button" type="submit">Сохранить</button>
+            </fieldset>
+          </form>
+        </div>
       </main>
 
       <footer class="footer">
@@ -142,6 +182,7 @@
           type="button"
           aria-label="Поставить лайк"
         ></button>
+        <p class="place__like-counter"></p>
         <button
           class="place__delete"
           type="button"

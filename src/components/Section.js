@@ -6,6 +6,7 @@ export default class Section {
     this._renderer = renderer;
     this._items = items;
     this._containerElement = document.querySelector(containerSelector);
+    
   }
 
   //для каждого айтема применяет рендерер

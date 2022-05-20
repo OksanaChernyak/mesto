@@ -16,6 +16,7 @@ module.exports = {
     port: 8081,
     open: true,
   },
+  devtool: "inline-source-map",
   module: {
     rules: [
       {
