@@ -3,15 +3,16 @@
   width: 120px;
   height: 120px;
   margin-right: 30px;
-  visibility: hidden;
+  opacity: 0;
   cursor: pointer;
   background-image: url('../../../images/edit-pen__icon.svg');
+  position: fixed;
 }
 
 .profile__avatar-button:hover {
-  visibility: visible;
-  background-color: transparent;
+  opacity: 0.8;
+  background-color: #C4C4C4;
+  border: 2px solid #C4C4C4;
   background-position: center;
-  background-repeat: no-repeat;
-  
+  background-repeat: no-repeat;  
 }

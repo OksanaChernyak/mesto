@@ -16,8 +16,9 @@ import {
   cardAddButton,
   containerAddFormSubmit,
   config,
-  ava,
+  avaButton,
   containerAvatarFormSubmit,
+  avaSaveBtn,
 } from "../utils/constants.js";
 
 //создадим экземпляр класса апи для работы с запросами на сервер
@@ -34,20 +35,20 @@ const cards = api.getInitialCards();
 
 cards
   .then((data) => {
-    //создаем экземпляр секции, которая отвечает за отрисовку на странице
-    const cardsList = new Section(
-      {
-        items: data,
-        renderer: createCard,
-      },
-      ".places"
-    );
     //использвуем публичный метод секции для отрисовки карточек
-    cardsList.renderSectionItems();
+    cardsList.renderSectionItems(data);
   })
   .catch((err) => {
     alert(err);
   });
+
+//создаем экземпляр секции, которая отвечает за отрисовку на странице
+const cardsList = new Section(
+  {
+    renderer: createCard,
+  },
+  ".places"
+);
 
 //создаем экземпляр класса для каждой формы, передавая объект настроек и форму для валидации
 const validationAdd = new FormValidator(config, containerAddFormSubmit);
@@ -119,10 +120,14 @@ function handleAvatarFormSubmit(avatar) {
   api
     .changeAvatar(avatar)
     .then((res) => {
+      popupWithAvatarForm.renderLoading(true);
       userInfo.setUserInfo(res);
       popupWithAvatarForm.closePopup();
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err))
+    .finally(() => {
+      popupWithAvatarForm.renderLoading(false);
+    });
 }
 
 //создадим экземпляр класса попапа с подтверждением удаления + слушатели
@@ -134,6 +139,7 @@ popupWithDeleteVerification.setEventListeners();
 
 //что происходит при нажатии на кнопку да в попапе подтверждения удаления
 function handleRemoveSubmit(card) {
+  popupWithDeleteVerification.renderLoading(true);
   api
     .deleteCard(card._cardId)
     .then(() => {
@@ -142,32 +148,52 @@ function handleRemoveSubmit(card) {
     })
     .catch((err) => {
       alert(err);
+    })
+    .finally(() => {
+      popupWithDeleteVerification.renderLoading(false);
     });
 }
 
 //что происходит при нажатии на кнопку сохранения формы в попапе
 function handleEditFormSubmit(data) {
   userInfo.setUserInfo(data);
-  api.changeUserData(data);
-  popupWithEditForm.closePopup();
+  popupWithEditForm.renderLoading(true);
+  api
+    .changeUserData(data)
+    .then(() => {
+      popupWithEditForm.closePopup();
+    })
+    .catch((err) => {
+      alert(err);
+    })
+    .finally(() => {
+      popupWithEditForm.renderLoading(false);
+    });
 }
 
 //что происходит при нажатии на кнопку создания новой карточки в попапе
 function handleAddFormSubmit(data) {
+  popupWithAddForm.renderLoading(true);
   api
     .addCardtoServer(data)
-    .then(() => popupWithAddForm.closePopup())
+    .then((res) => {
+      cardsList.setItem(createCard(res));
+      popupWithAddForm.closePopup();
+    })
     .catch((err) => {
       alert(err);
+    })
+    .finally(() => {
+      popupWithAddForm.renderLoading(true);
     });
 }
 
-//что происходит при нажатии на картинку карточки
+//что происходит при нажатии на картинку карточки - откроется большая картинка
 function handleCardClick(name, link) {
   popupWithPicture.openPopup(name, link);
 }
 
-//что происходит при клике на лайк карточки
+//что происходит при клике на лайк карточки - проверяем есть ли мой лайк
 function handleLikeClick(card, hasMyLike) {
   if (hasMyLike) {
     api
@@ -196,7 +222,8 @@ function handleTrashBinClick(card) {
 }
 
 //слушатель клика на аватарку
-ava.addEventListener("click", () => {
+avaButton.addEventListener("click", () => {
+  validationAvatar.resetValidation();
   popupWithAvatarForm.openPopup();
 });
 

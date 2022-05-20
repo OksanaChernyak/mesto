@@ -8,7 +8,9 @@ export default class Api {
     if (res.ok) {
       return res.json();
     }
-    return Promise.reject("Произошла ошибка, что-то поломалось. Сочувствуем:(");
+    return Promise.reject(
+      `Произошла ошибка ${res.status}, что-то поломалось. Сочувствуем:(`
+    );
   }
 
   getInitialCards() {
@@ -64,14 +66,14 @@ export default class Api {
     }).then(this._handleError);
   }
 
-  likeCard(cardId) {    
+  likeCard(cardId) {
     return fetch(`${this._baseUrl}${"cards/likes/"}${cardId}`, {
       method: "PUT",
       headers: this._headers,
     }).then(this._handleError);
   }
 
-  deleteLikeFromCard(cardId) {    
+  deleteLikeFromCard(cardId) {
     return fetch(`${this._baseUrl}${"cards/likes/"}${cardId}`, {
       method: "DELETE",
       headers: this._headers,

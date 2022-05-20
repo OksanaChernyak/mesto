@@ -18,12 +18,8 @@
 
       <main class="main">
         <section class="profile">
-          <button class="profile__avatar-edit"></button>
-          <img
-            class="profile__pic"
-            alt="аватарка"
-            src=""
-          />
+          <button class="profile__avatar-button"></button>
+          <img class="profile__pic" alt="аватарка" src="" />
           <div class="profile__info">
             <h1 class="profile__title"></h1>
             <button class="profile__edit-button"></button>
@@ -136,7 +132,12 @@
               aria-label="Закрыть попап"
             ></button>
             <h2 class="popup__title">Вы уверены?</h2>
-            <button class="popup__save-button" type="submit">Да</button>
+            <button
+              class="popup__save-button popup__save-button_type_confirm"
+              type="submit"
+            >
+              Да
+            </button>
           </form>
         </div>
 
@@ -162,7 +163,9 @@
                 required
               />
               <span class="error avatar-input-error"></span>
-              <button class="popup__save-button" type="submit">Сохранить</button>
+              <button class="popup__save-button" type="submit">
+                Сохранить
+              </button>
             </fieldset>
           </form>
         </div>

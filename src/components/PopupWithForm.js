@@ -7,6 +7,7 @@ export default class PopupWithForm extends Popup {
     this._handleFormSubmit = handleFormSubmit;
     this._formElement = document.querySelector(this._popupSelector);
     this._form = this._formElement.querySelector(".popup__container");
+    this._submitButton = this._form.querySelector(".popup__save-button");
   }
 
   //собирает данные полей формы
@@ -30,6 +31,17 @@ export default class PopupWithForm extends Popup {
       evt.preventDefault();
       this._handleFormSubmit(this._getInputValues());
     });
+  }
+
+  //метод изменения состояния кнопки сохранения
+  renderLoading(isLoading) {
+    this._permanentText = this._submitButton.textContent;
+
+    if (isLoading) {
+      this._submitButton.textContent = "Сохранение...";
+    } else {
+      this._submitButton.textContent = this._permanentText;
+    }
   }
 
   //перезапишем родительский метод закрытия, чтобы сбрасывалась форма

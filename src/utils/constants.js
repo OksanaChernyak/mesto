@@ -11,9 +11,9 @@ export {
   ESC_CODE,
   newCardSaveButton,
   config,
-  yesDeleteButton,
-  ava,
-  containerAvatarFormSubmit
+  avaButton,
+  containerAvatarFormSubmit,
+  avaSaveBtn,
 };
 const popupEditForm = document.querySelector(".popup_type_edit-form");
 const profileEditButton = document.querySelector(".profile__edit-button");
@@ -36,14 +36,14 @@ const containerAddFormSubmit = document.querySelector(
 const containerAvatarFormSubmit = document.querySelector(
   ".popup__container_type_avatar"
 );
+const avaSaveBtn = containerAvatarFormSubmit.querySelector(
+  ".popup__save-button"
+);
 const ESC_CODE = 27;
 const newCardSaveButton = containerAddFormSubmit.querySelector(
   ".popup__save-button"
 );
-const popupConfirmation = document.querySelector(".popup_type_delete");
-
-const yesDeleteButton = popupConfirmation.querySelector(".popup__save-button");
-const ava = document.querySelector(".profile__pic");
+const avaButton = document.querySelector(".profile__avatar-button");
 
 //объект с настройками
 const config = {
