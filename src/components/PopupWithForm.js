@@ -5,16 +5,14 @@ export default class PopupWithForm extends Popup {
   constructor(handleFormSubmit, popupSelector) {
     super(popupSelector);
     this._handleFormSubmit = handleFormSubmit;
-    this._formElement = document.querySelector(this._popupSelector);
-    this._form = this._formElement.querySelector(".popup__container");
+    this._form = this._popupElement.querySelector(".popup__container");
     this._submitButton = this._form.querySelector(".popup__save-button");
+    this._permanentText = this._submitButton.textContent;
+    this._inputList = Array.from(this._form.querySelectorAll(".popup__field"));
   }
 
   //собирает данные полей формы
   _getInputValues() {
-    this._inputList = Array.from(
-      this._formElement.querySelectorAll(".popup__field")
-    );
     //создаем пустой объект
     this._formValues = {};
     //собираем в него значения всех полей из формы, с ключами объекта = атрибутами каждого инпута
@@ -35,8 +33,6 @@ export default class PopupWithForm extends Popup {
 
   //метод изменения состояния кнопки сохранения
   renderLoading(isLoading) {
-    this._permanentText = this._submitButton.textContent;
-
     if (isLoading) {
       this._submitButton.textContent = "Сохранение...";
     } else {

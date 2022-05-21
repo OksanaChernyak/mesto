@@ -18,7 +18,6 @@ import {
   config,
   avaButton,
   containerAvatarFormSubmit,
-  avaSaveBtn,
 } from "../utils/constants.js";
 
 //создадим экземпляр класса апи для работы с запросами на сервер
@@ -30,13 +29,14 @@ const api = new Api({
   },
 });
 
-//получим карточки с сервера
-const cards = api.getInitialCards();
+/*Спасибо большое, ревью очень подробное и познавательное, 
+на каникулах попробую переписать код по вашим рекомендациям из "можно лучше"*/
 
-cards
-  .then((data) => {
-    //использвуем публичный метод секции для отрисовки карточек
-    cardsList.renderSectionItems(data);
+// Один общий запрос для того, чтобы все элементы отобразились как надо, корректно
+Promise.all([api.getUserData(), api.getInitialCards()])
+  .then(([userServerData, cardsData]) => {
+    userInfo.setUserInfo(userServerData);
+    cardsList.renderSectionItems(cardsData);
   })
   .catch((err) => {
     alert(err);
@@ -82,14 +82,6 @@ function createCard(data) {
   return newCardElement;
 }
 
-//отправим запрос на получение инфо о пользователе
-const userServerData = api.getUserData();
-userServerData
-  .then((data) => {
-    userInfo.setUserInfo(data);
-  })
-  .catch((err) => console.log(err));
-
 //создадим экземпляр класса попапа с картинкой + слушатели
 const popupWithPicture = new PopupWithImage(".popup_type_image");
 popupWithPicture.setEventListeners();
@@ -117,10 +109,10 @@ popupWithAvatarForm.setEventListeners();
 
 //при клике на кнопку сохранить, аватар отправится на сервер
 function handleAvatarFormSubmit(avatar) {
+  popupWithAvatarForm.renderLoading(true);
   api
     .changeAvatar(avatar)
     .then((res) => {
-      popupWithAvatarForm.renderLoading(true);
       userInfo.setUserInfo(res);
       popupWithAvatarForm.closePopup();
     })
@@ -156,11 +148,11 @@ function handleRemoveSubmit(card) {
 
 //что происходит при нажатии на кнопку сохранения формы в попапе
 function handleEditFormSubmit(data) {
-  userInfo.setUserInfo(data);
   popupWithEditForm.renderLoading(true);
   api
     .changeUserData(data)
-    .then(() => {
+    .then((res) => {
+      userInfo.setUserInfo(res);
       popupWithEditForm.closePopup();
     })
     .catch((err) => {
@@ -184,7 +176,7 @@ function handleAddFormSubmit(data) {
       alert(err);
     })
     .finally(() => {
-      popupWithAddForm.renderLoading(true);
+      popupWithAddForm.renderLoading(false);
     });
 }
 
@@ -197,9 +189,10 @@ function handleCardClick(name, link) {
 function handleLikeClick(card, hasMyLike) {
   if (hasMyLike) {
     api
-      .deleteLike(card._cardId)
+      .deleteLikeFromCard(card._cardId)
       .then((res) => {
-        card.deleteMyLike(res.likes);
+        card.deleteMyLike();
+        card._likeCounter.textContent = res.likes.length;
       })
       .catch((err) => {
         alert(err);
@@ -208,7 +201,8 @@ function handleLikeClick(card, hasMyLike) {
     api
       .likeCard(card._cardId)
       .then((res) => {
-        card.addMyLike(res.likes);
+        card.addMyLike();
+        card._likeCounter.textContent = res.likes.length;
       })
       .catch((err) => {
         alert(err);

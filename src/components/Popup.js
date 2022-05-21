@@ -40,18 +40,8 @@ export default class Popup {
 
   //слушатели на кнопку закрытия каждого попапа и на зону оверлея
   setEventListeners() {
-    this._closeButton = this._popupElement.querySelector(
-      ".popup__close-button"
-    );
-    this._closeButton.addEventListener("click", () => {
-      this.closePopup();
-    });
-
-    this._overlayList = Array.from(document.querySelectorAll(".popup"));
-    this._overlayList.forEach((overlay) => {
-      overlay.addEventListener("click", (evt) => {
-        this._handleCloseOnOverlay(evt);
-      });
+    this._popupElement.addEventListener("click", (evt) => {
+      this._handleCloseOnOverlay(evt);
     });
   }
 }

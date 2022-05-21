@@ -13,7 +13,6 @@ export {
   config,
   avaButton,
   containerAvatarFormSubmit,
-  avaSaveBtn,
 };
 const popupEditForm = document.querySelector(".popup_type_edit-form");
 const profileEditButton = document.querySelector(".profile__edit-button");
@@ -35,9 +34,6 @@ const containerAddFormSubmit = document.querySelector(
 );
 const containerAvatarFormSubmit = document.querySelector(
   ".popup__container_type_avatar"
-);
-const avaSaveBtn = containerAvatarFormSubmit.querySelector(
-  ".popup__save-button"
 );
 const ESC_CODE = 27;
 const newCardSaveButton = containerAddFormSubmit.querySelector(

@@ -3,10 +3,10 @@ import Popup from "./Popup.js";
 export default class PopupWithConfirmation extends Popup {
   constructor(handleFormSubmit, popupSelector) {
     super(popupSelector);
-    this._formElement = document.querySelector(this._popupSelector);
-    this._form = this._formElement.querySelector(".popup__delete-container");
+    this._form = this._popupElement.querySelector(".popup__delete-container");
     this._submitButton = this._form.querySelector(".popup__save-button");
     this._handleFormSubmit = handleFormSubmit;
+    this._permanentText = this._submitButton.textContent;
   }
 
   //при открытии попапа обозначим карточку
@@ -17,10 +17,8 @@ export default class PopupWithConfirmation extends Popup {
 
   //метод изменения состояния кнопки сохранения
   renderLoading(isLoading) {
-    this._permanentText = this._submitButton.textContent;
-
     if (isLoading) {
-      this._submitButton.textContent = "Сохранение...";
+      this._submitButton.textContent = "Удаление...";
     } else {
       this._submitButton.textContent = this._permanentText;
     }

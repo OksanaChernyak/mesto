@@ -35,7 +35,6 @@ export default class Card {
   //формирует карточку
   renderCard() {
     this._element = this._getTemplate();
-    this._setCardActionsListeners();
     this._image = this._element.querySelector(".place__image");
     this._title = this._element.querySelector(".place__title");
     this._image.src = this._link;
@@ -58,20 +57,18 @@ export default class Card {
     if (this._likes.some((like) => like._id === this._myId)) {
       this._likeBtn.classList.add("place__like_active");
     }
-
+    this._setCardActionsListeners();
     return this._element;
   }
 
   //метод удаления лайка
   deleteMyLike() {
     this._likeBtn.classList.remove("place__like_active");
-    this._likeCounter.textContent = this._likes.length - 1;
   }
 
   //метод добавления лайка
   addMyLike() {
     this._likeBtn.classList.add("place__like_active");
-    this._likeCounter.textContent = this._likes.length + 1;
   }
 
   //метод удаления карточки
@@ -82,18 +79,14 @@ export default class Card {
 
   //пакет слушателей кликов для каждой карточки
   _setCardActionsListeners() {
-    this._element
-      .querySelector(".place__like")
-      .addEventListener("click", () =>
-        this._handleLikeClick(this, this.hasMyLike)
-      );
-    this._element
-      .querySelector(".place__delete")
-      .addEventListener("click", () => this._handleTrashBinClick(this));
-    this._element
-      .querySelector(".place__image")
-      .addEventListener("click", () =>
-        this._handleCardClick(this._name, this._link)
-      );
+    this._likeBtn.addEventListener("click", () =>
+      this._handleLikeClick(this, this.hasMyLike)
+    );
+    this._trashBin.addEventListener("click", () =>
+      this._handleTrashBinClick(this)
+    );
+    this._image.addEventListener("click", () =>
+      this._handleCardClick(this._name, this._link)
+    );
   }
 }
