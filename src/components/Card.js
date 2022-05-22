@@ -14,7 +14,7 @@ export default class Card {
     this._name = data.name;
     this._link = data.link;
     this._ownerId = data.owner._id;
-    this._cardId = data._id;
+    this.cardId = data._id;
     this._likes = data.likes;
     this._myId = userId;
     this._cardSelector = cardSelector;
@@ -62,13 +62,15 @@ export default class Card {
   }
 
   //метод удаления лайка
-  deleteMyLike() {
+  deleteMyLike(newLikes) {
     this._likeBtn.classList.remove("place__like_active");
+    this._likeCounter.textContent = newLikes;
   }
 
   //метод добавления лайка
-  addMyLike() {
+  addMyLike(newLikes) {
     this._likeBtn.classList.add("place__like_active");
+    this._likeCounter.textContent = newLikes;
   }
 
   //метод удаления карточки

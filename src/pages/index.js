@@ -29,9 +29,6 @@ const api = new Api({
   },
 });
 
-/*Спасибо большое, ревью очень подробное и познавательное, 
-на каникулах попробую переписать код по вашим рекомендациям из "можно лучше"*/
-
 // Один общий запрос для того, чтобы все элементы отобразились как надо, корректно
 Promise.all([api.getUserData(), api.getInitialCards()])
   .then(([userServerData, cardsData]) => {
@@ -133,7 +130,7 @@ popupWithDeleteVerification.setEventListeners();
 function handleRemoveSubmit(card) {
   popupWithDeleteVerification.renderLoading(true);
   api
-    .deleteCard(card._cardId)
+    .deleteCard(card.cardId)
     .then(() => {
       card.removeCardFromServer();
       popupWithDeleteVerification.closePopup();
@@ -186,23 +183,21 @@ function handleCardClick(name, link) {
 }
 
 //что происходит при клике на лайк карточки - проверяем есть ли мой лайк
-function handleLikeClick(card, hasMyLike) {
-  if (hasMyLike) {
+function handleLikeClick(card) {
+  if (card.hasMyLike) {
     api
-      .deleteLikeFromCard(card._cardId)
+      .deleteLikeFromCard(card.cardId)
       .then((res) => {
-        card.deleteMyLike();
-        card._likeCounter.textContent = res.likes.length;
+        card.deleteMyLike(res.likes.length);
       })
       .catch((err) => {
         alert(err);
       });
   } else {
     api
-      .likeCard(card._cardId)
+      .addLikeToCard(card.cardId)
       .then((res) => {
-        card.addMyLike();
-        card._likeCounter.textContent = res.likes.length;
+        card.addMyLike(res.likes.length);
       })
       .catch((err) => {
         alert(err);
